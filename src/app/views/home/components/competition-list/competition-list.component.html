@@ -1,0 +1,11 @@
+<div *ngIf="loading(); else loaded">
+  <app-spinner></app-spinner>
+</div>
+
+<ng-template #loaded>
+  <div class="container mx-auto px-4 w-full">
+    <div class="grow">
+      <app-table [competitions]="competitions()" [numberOfCompetitions]="numberOfCompetitions()" [searchFilter]="filterString()" (onFilter)="search($event)"></app-table>
+    </div>
+  </div>
+</ng-template>
