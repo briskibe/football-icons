@@ -14,7 +14,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let club of searchClubResults" (click)="updateSelectedClub(club.id)">
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 hover:cursor-pointer" *ngFor="let club of searchClubResults" (click)="updateSelectedClub(club.id)">
       <td class="px-6 py-4">
         {{ club.id }}
       </td>
