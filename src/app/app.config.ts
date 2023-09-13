@@ -8,12 +8,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const BACKEND_URL = new InjectionToken<string>('BACKEND_URL');
 export const BACKEND_API_KEY = new InjectionToken<string>('BACKEND_API_KEY');
+export const INITIAL_CLUB_ID = new InjectionToken<number>('INITIAL_CLUB_ID');
 
 export const appConfig: ApplicationConfig = {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
     { provide: BACKEND_URL, useValue: '<BAKCKEND_URL>' },
     { provide: BACKEND_API_KEY, useValue: '<BAKCKEND_API_KEY>'},
+    { provide: INITIAL_CLUB_ID, useValue: 609},
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations()
