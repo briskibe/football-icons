@@ -1,0 +1,28 @@
+<div class="flex flex-col lg:flex-row flex-wrap">
+  <div class="basis-1/4 py-8 px-4 flex lg:justify-end">
+    <p class="text-lg font-medium text-gray-500">Name:</p>
+  </div>
+  <div class="basis-3/4 py-8 px-4">
+    <p class="text-xl">{{ club?.name }}</p>
+  </div>
+
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+  <div class="basis-1/4 py-8 px-4 flex lg:justify-end">
+    <p class="text-lg font-medium text-gray-500">Address:</p>
+  </div>
+  <div class="basis-3/4 py-8 px-4">
+    <p class="text-xl">{{ club?.address }}</p>
+  </div>
+
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+  <div class="basis-1/4 py-8 px-4 flex lg:justify-end">
+    <p class="text-lg font-medium text-gray-500">Website:</p>
+  </div>
+  <div class="basis-3/4 py-8 px-4">
+    <p class="text-xl">{{ club?.website ? club?.website : 'N/A' }}</p>
+  </div>
+
+  <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+</div>

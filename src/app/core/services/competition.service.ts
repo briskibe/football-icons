@@ -9,9 +9,9 @@ export class CompetitionService {
   readonly backendUrl = inject(BACKEND_URL);
   readonly httpClient = inject(HttpClient);
 
-  getCompetitions(): Observable<CompetitionModel[]> {
+  getCompetitions(teamId: number): Observable<CompetitionModel[]> {
     return this.httpClient.get<CompetitionModel[]>(
-      this.backendUrl + '/live/competition/list/active/609'
+      this.backendUrl + '/live/competition/list/active/' + teamId
     );
   }
 }

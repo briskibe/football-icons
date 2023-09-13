@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {HomeFacade} from "../../home.facade";
 import {TableComponent} from "../../../../core/components/table/table.component";
@@ -8,7 +8,6 @@ import {SpinnerComponent} from "../../../../core/components/spinner/spinner.comp
   selector: 'app-competition-list',
   standalone: true,
   imports: [CommonModule, TableComponent, SpinnerComponent],
-  providers: [HomeFacade],
   templateUrl: './competition-list.component.html',
   styleUrls: ['./competition-list.component.scss']
 })
