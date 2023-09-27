@@ -18,7 +18,6 @@ export class ClubService {
   }
 
   searchClubs(keyword: string): Observable<any> {
-    console.log('here');
     let params = new HttpParams()
       .set('keyword', keyword)
       .set('page', '1')

@@ -26,31 +26,8 @@ export class HomeFacade {
   readonly INITIAL_CLUB_ID = inject(INITIAL_CLUB_ID);
 
   // signals - competition view
-  private _competitions = signal<CompetitionModel[]>([]);
   private _loading = signal<boolean>(false);
   private _filterString = signal<string | null>(null);
-
-  // readonly objects - competition view
-  readonly competitions = this._competitions.asReadonly();
-  readonly loading = this._loading.asReadonly();
-  readonly filterString = this._filterString.asReadonly();
-  readonly numberOfCompetitions = computed(() => this.searchResults().length);
-  readonly searchResults = toSignal(
-    merge(this.filterStringChangedObservable$(), toObservable(this.competitions)).pipe(tap((res) => console.log(res))), { initialValue: [] as CompetitionModel[]}
-  );
-
-  private filterStringChangedObservable$() {
-    return toObservable(this.filterString).pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      map(filter =>
-        filter != null ?
-          this.competitions().filter(competition => competition.name.toLowerCase().includes(filter.toLowerCase()))
-          : this.competitions()
-      )
-    )
-  }
-
 
   // signals - club detail view
   private _selectedClubId = signal<number>(this.INITIAL_CLUB_ID);
@@ -58,13 +35,30 @@ export class HomeFacade {
   private _filterClubString = signal<string>('');
   private _searchClubEnabled = signal<boolean>(false);
 
+  // readonly objects - competition view
+  readonly loading = this._loading.asReadonly();
+  readonly filterString = this._filterString.asReadonly();
+  readonly numberOfCompetitions = computed(() => this.searchResults().length);
+  readonly competitions = toSignal(
+    toObservable(this._selectedClubId).pipe(
+      switchMap((clubId) => {
+        this._filterString.set('');
+        return this.#loadCompetitions(clubId)
+      })
+    ), { initialValue: [] as CompetitionModel[]}
+  );
+
+  readonly searchResults = toSignal(
+    merge(this.filterStringChangedObservable$(), toObservable(this.competitions)).pipe(tap((res) => console.log(res))), { initialValue: [] as CompetitionModel[]}
+  );
+
   // readonly objects - club detail view
   readonly selectedClubId = this._selectedClubId.asReadonly();
   readonly selectedClub = this._selectedClub.asReadonly();
   readonly filterClubString = this._filterClubString.asReadonly();
   readonly searchClubEnabled = this._searchClubEnabled.asReadonly();
 
-  readonly searchClubResults: Signal<ClubModel[]> = toSignal(
+  readonly searchClubResults = toSignal(
     toObservable(this.filterClubString).pipe(
       debounceTime(1000),
       distinctUntilChanged(),
@@ -78,26 +72,24 @@ export class HomeFacade {
 
 
   constructor() {
-    /*toObservable(this._selectedClubId).pipe(
-      switchMap(() => this.#loadClub()),
-      switchMap(club => {
-        this._selectedClub.set(club);
-        return this.#loadCompetitions(club.id)
-      }),
-      takeUntilDestroyed()
-    ).subscribe((data) => {
-      this._competitions.set(data);
-      this.updateSearchFilter('');
-    });*/
-
     toObservable(this._selectedClubId).pipe(
-      switchMap((clubId) => combineLatest([this.#loadClub(), this.#loadCompetitions(clubId)])),
+      switchMap(() => this.#loadClub()),
       takeUntilDestroyed()
     ).subscribe((data) => {
-      this._selectedClub.set(data[0]);
-      this._competitions.set(data[1]);
-      this.updateSearchFilter('');
+      this._selectedClub.set(data);
     });
+  }
+
+  private filterStringChangedObservable$() {
+    return toObservable(this.filterString).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      map(filter =>
+        filter != null ?
+          this.competitions().filter(competition => competition.name.toLowerCase().includes(filter.toLowerCase()))
+          : this.competitions()
+      )
+    )
   }
 
 
