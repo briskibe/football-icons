@@ -1,6 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HomeFacade} from "./home.facade";
 import {RouterLink} from "@angular/router";
 import {TableComponent} from "../../core/components/table/table.component";
 import {SpinnerComponent} from "../../core/components/spinner/spinner.component";

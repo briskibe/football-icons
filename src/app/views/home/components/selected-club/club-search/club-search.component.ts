@@ -1,9 +1,9 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {HomeFacade} from "../../../home.facade";
 import {FormsModule} from "@angular/forms";
 import {ClubModel} from "../../../../../core/models/club.model";
 import {ClubSearchListComponent} from "./club-search-list/club-search-list.component";
+import {SelectedClubFacade} from "../selected-club.facade";
 
 @Component({
   selector: 'app-club-search',
@@ -17,15 +17,15 @@ export class ClubSearchComponent {
   @Input() searchClubResults: ClubModel[] = [];
   @Output() onFilter = new EventEmitter<string>();
 
-  homeFacade = inject(HomeFacade);
+  selectedClubFacade = inject(SelectedClubFacade);
 
-  readonly searchClubEnabled = this.homeFacade.searchClubEnabled;
+  readonly searchClubEnabled = this.selectedClubFacade.searchClubEnabled;
 
   search(filter: string) {
     this.onFilter.emit(filter);
   }
 
   updateSelectedClub(clubId: number) {
-    this.homeFacade.updateSelectedClubId(clubId);
+    this.selectedClubFacade.updateSelectedClubId(clubId);
   }
 }
